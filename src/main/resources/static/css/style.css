@@ -1,0 +1,55 @@
+.body{
+    font-family: "Poppins", sans-serif;
+}
+
+.form_div_design
+{
+	width: 100%;
+	padding: 40px;
+	box-shadow: 0px 0px 5px #cccccc;
+	float: left;
+    margin-top: 20px;
+}
+.error_message_design
+{
+	color: red;
+	font-size: 14px;
+	font-weight: bold;
+}
+.course_details_div
+{
+	height: auto;
+	width: auto;
+	padding: 20px;
+	box-shadow: 0px 0px 5px #cccccc;
+}
+:root {
+  scroll-behavior: smooth;
+}
+.profile-pic{
+    display: inline-block;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-pic img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.profile-menu .dropdown-menu {
+    margin-right: 5px;
+    right: 0;
+    left: unset;
+}
+.profile-menu .fa-fw {
+    margin-right: 10px;
+}
+
+.toggle-change::after {
+    border-top: 0;
+    border-bottom: 0.3em solid;
+}
