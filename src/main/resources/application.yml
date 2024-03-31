@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Education
+  datasource:
+    url: jdbc:mysql://localhost:3306/onlinelearning
+    username: root
+    password: pritam@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: learnwitheducation1@gmail.com
+    password: bjpq fsja nmbn fazn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
