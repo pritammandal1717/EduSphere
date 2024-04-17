@@ -36,27 +36,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests()
-                .requestMatchers(
-                        "/",
-                        "/login",
-                        "/error",
-                        "/registration/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .defaultSuccessUrl("/")
-                .permitAll().and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .and()
+                .authorizeHttpRequests(registry -> {
+                    registry.requestMatchers("/","/login","/error","/registration/**","/images/**","/css/**","/js/**","/uploads/**","/courses/**").permitAll();
+                    registry.anyRequest().authenticated();
+                })
+
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.loginPage("/login").usernameParameter("email").defaultSuccessUrl("/students").permitAll();
+                })
+                .logout(httpSecurityLogoutConfigurer -> {
+                    httpSecurityLogoutConfigurer.invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+                })
                 .build();
     }
 }

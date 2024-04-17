@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Course</title>
+</head>
+<body>
+<h1>Purchase Course</h1>
+<p>Course: ${course.name}</p>
+<p>Description: ${course.description}</p>
+<form method="post" action="/courses/${course.courseName}/purchase">
+    <input type="submit" value="Purchase">
+</form>
+</body>
+</html>

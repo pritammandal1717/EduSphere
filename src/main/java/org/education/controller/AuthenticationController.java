@@ -11,13 +11,19 @@ import org.education.event.RegistrationCompleteEventListener;
 import org.education.service.PasswordResetTokenService;
 import org.education.service.StudentService;
 import org.education.service.VerificationTokenService;
+import org.education.urls.OtherUrls;
 import org.education.utility.UrlUtil;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,10 +43,24 @@ public class AuthenticationController {
         return "registration";
     }
     @PostMapping("/register")
-    public String registerStudent(@ModelAttribute("user") RegistrationRequest registration, HttpServletRequest request) {
+    public String registerStudent(@ModelAttribute("user") RegistrationRequest registration, @RequestParam("profileimage") MultipartFile profileimage, HttpServletRequest request) {
+        saveImage(profileimage);
         Student student = studentService.registerStudent(registration);
         publisher.publishEvent(new RegistrationCompleteEvent(student, UrlUtil.getApplicationUrl(request)));
         return "redirect:/registration/registration-form?success";
+    }
+    private void saveImage(MultipartFile file) {
+        try
+        {
+            String fileName = file.getOriginalFilename();
+            Path filePath = Paths.get(OtherUrls.IMAGE_UPLOAD_FOLDER, fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
     @GetMapping("/verifyEmail")
     public String verifyEmail(@RequestParam("token") String token) {

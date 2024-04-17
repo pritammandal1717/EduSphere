@@ -2,9 +2,10 @@ body{
     font-family: "Poppins", sans-serif;
 }
 .collapse>ul>li>a{
-    color: #52d1da;
+    color: #55b3b7;
     border-radius: 20px;
     margin-right: 5px;
+    padding: 2px;
 }
 .collapse>ul>li>a:hover{
     color: white;
@@ -23,7 +24,7 @@ body{
 }
 .dropdown-menu>li>button:hover{
     color: #ffffff;
-    background-color: #52d1da;
+    background-color: #71C9CE;
     transition: ease-in-out.3s;
 }
 .d-flex{
@@ -32,14 +33,14 @@ body{
         border-radius: 20px;
         border: 1px solid #4580b7;
     }
-    .btn{
+    .nav-link{
         margin-right: 5px;
         border-radius: 20px;
         border:none;
-        background-color: #52d1da;
+        background-color: #71C9CE;
         color: #F8F9FA;
     }
-    .btn:hover{
+    .nav-link:hover{
         background-color: #5cd5de;
     }
 }

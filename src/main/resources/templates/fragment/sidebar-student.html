@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="row">
+    <div style="padding-top: 10px; text-align: center">
+        <p th:text="Hii...  +  ${student.firstName}" style="font-size: 25px; font-weight: 800;
+  font-style: normal; font-family: Pacifico, cursive; color: #c5ffec"></p>
+    </div>
+    <hr>
+    <ul class="sidebar-nav" th:align="center">
+        <li class="active">
+            <a href="#" th:href="@{/students}"><i class="fa fa-home"></i>Dashboard</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-user"></i>Profile</a>
+        </li>
+        <li>
+            <a href="#" th:href="@{/students/chat}"><i class="fa fa-user"></i>Chat</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-plug"></i>Exam</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-plug"></i>Assignment</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-plug"></i>Quiz</a>
+        </li>
+        <li>
+            <a href="" th:href="@{/logout}"><i class="fa fa-plug"></i>Logout</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

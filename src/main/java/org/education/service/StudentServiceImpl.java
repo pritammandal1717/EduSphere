@@ -9,9 +9,12 @@ import org.education.repository.StudentRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,11 +31,21 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Student registerStudent(RegistrationRequest registrationRequest) {
-        var student = new Student(registrationRequest.getFirstName(), registrationRequest.getLastName(),
+        String imageURL =  generateImageUrl(registrationRequest.getProfileimage());
+        var student = new Student(registrationRequest.getFirstName(),
+                registrationRequest.getLastName(),
                 registrationRequest.getEmail(),
                 passwordEncoder.encode(registrationRequest.getPassword()),
-                Arrays.asList(new Role("ROLE_USER")));
+                Arrays.asList(new Role("ROLE_USER")),
+                registrationRequest.getPhoneno(),
+                registrationRequest.getCurrentdegree(),
+                imageURL);
         return studentRepository.save(student);
+    }
+    private String generateImageUrl(MultipartFile profileimage) {
+        String baseUrl = "http://localhost:8080/uploads/";
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(profileimage.getOriginalFilename()));
+        return baseUrl + filename;
     }
 
     @Override
