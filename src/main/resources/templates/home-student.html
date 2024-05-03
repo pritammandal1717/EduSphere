@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <title></title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color: #26547c">
+                <div class="modal-header" style="justify-content: center; color: #FFFFFF">
+                    <h4 class="modal-title" id="exampleModalLongTitle">Welcome!</h4>
+                </div>
+                <div class="modal-body text-center" style="color: #FFFFFF; font-weight: 400; font-size: larger">
+                    <p th:text="${student.firstName}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+            <div class="col-2" style="border-right: 6px solid #2e736a; margin-top: -1%; background-color: #46a094; position: sticky">
+                <div th:insert="~{fragment/sidebar-student}"></div>
+            </div>
+            <div class="col-10" >
+                <div class="row" style="margin-top: -1%">
+                    <nav class="navbar navbar-light" style="background-color: #edfdfc">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="#" style="display: flex; flex-direction: row;align-items: center">
+                                <img src="/images/logo2.png" width="43" height="43" alt="">
+                                <span style="font-weight: bolder; font-size: 25px; color: #35969b; font-family:Dancing Script, cursive;margin-left: 7px">EduSphere</span>
+                            </a>
+                            <div class="d-flex">
+                                <div class="profile-pic">
+                                    <img th:src="${student.profileimage}" width="43" height="43" th:alt="Hii" alt="Profile Picture" class="rounded-pill">
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="row m-5 justify-content-center">
+                        <h3 style="margin-bottom: 20px; color: #1e9880">Your Purchased Courses:</h3>
+                        <div class="row">
+                            <div th:each="course : ${enrolledCourses}" class="col-xs-12 col-sm-12 col-md-3 mb-4" style="margin: 5px">
+                                <div class="card" style="width: 300px;">
+                                    <img th:src="${course.courseimage}" class="card-img-top" alt="Course Image" style="height: 170px">
+                                    <div class="card-body" style="align-items: center; text-align: center;">
+                                        <h5 class="card-title" style="color: #5ed99b;" th:text="${course.coursename}"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="footer bg-light" style="height: 100%; width: 100%">
+    <div th:insert="~{fragment/footer}"></div>
+</div>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/65fd914ba0c6737bd123adb5/1hpj7v4ft';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
+
+<script>
+    const $button  = document.querySelector('#sidebar-toggle');
+    const $wrapper = document.querySelector('#wrapper');
+
+    $button.addEventListener('click', (e) => {
+        e.preventDefault();
+        $wrapper.classList.toggle('toggled');
+    });
+</script>
+<script th:src="@{/js/main.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    const toggleButton = document.getElementById("toggleButton");
+    const myIframe = document.getElementById("myIframe");
+
+    toggleButton.addEventListener("click", function () {
+        if (myIframe.style.display === "none") {
+            myIframe.style.display = "block";
+        } else {
+            myIframe.style.display = "none";
+        }
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        // Function to check if the user is logging in for the first time in the current session
+        function isFirstLogin() {
+            // Check if the "firstLogin" key exists in session storage
+            return sessionStorage.getItem("firstLogin") === null;
+        }
+
+        // Function to set the "firstLogin" key in session storage
+        function setFirstLogin() {
+            // Set the "firstLogin" key in session storage to true
+            sessionStorage.setItem("firstLogin", "true");
+        }
+
+        // Check if it's the user's first login in the current session
+        if (isFirstLogin()) {
+            // Show the modal
+            $('#welcomeModal').modal('show');
+            // Set the "firstLogin" key in session storage
+            setFirstLogin();
+            // Hide the modal after 3 seconds
+            setTimeout(function(){
+                $('#welcomeModal').modal('hide');
+            }, 3000);
+        }
+    });
+</script>
+<script>
+    function courseDetails(courseName) {
+        window.location.href = "/courseDetails?courseName="
+            + encodeURIComponent(courseName);
+    }
+</script>
+</body>
+</html>
