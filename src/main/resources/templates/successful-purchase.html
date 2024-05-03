@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Successful</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <style>
+        .wrapper {
+            width: 100px;
+            margin: 4em auto 0;
+        }
+
+        .checkmark {
+            stroke: green;
+            stroke-dashoffset: 745.74853515625;
+            stroke-dasharray: 745.74853515625;
+            animation: dash 2s ease-out forwards infinite;
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: 745.74853515625;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-2"
+             style="border-right: 6px solid #2e736a; margin-top: -1%; background-color: #46a094; position: sticky">
+            <div th:insert="~{fragment/sidebar-student}"></div>
+        </div>
+        <div class="col-10">
+            <div class="row" style="margin-top: -1%">
+                <nav class="navbar navbar-light" style="background-color: #edfdfc">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#" style="display: flex; flex-direction: row;align-items: center">
+                            <img src="/images/logo2.png" width="43" height="43" alt="">
+                            <span style="font-weight: bolder; font-size: 25px; color: #35969b; font-family:Dancing Script, cursive;margin-left: 7px">EduSphere</span>
+                        </a>
+                        <div class="d-flex">
+                            <div class="profile-pic">
+                                <img th:src="${student.profileimage}" width="43" height="43" th:alt="Hii"
+                                     alt="Profile Picture" class="rounded-pill">
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="row m-5 no-gutters shadow-lg">
+                <div class="col-md-6 d-none d-md-block" style="background-color: #A6E3E9">
+                    <img th:src="@{/images/purchase.svg}" alt="Successful Purchase"/>
+                </div>
+                <div class="col-md-6 bg-white p-5 justify-content-center text-center">
+                    <div class="card-header">
+                        <img src="/images/check.gif" alt="">
+                    </div>
+                    <span style="font-weight: bolder; font-size: larger">Purchase Successful</span>
+                    <div class="card-footer" style="margin-top: 100px">
+                        <p>
+                            <button type="button" class="btn btp-4 py-3" th:onclick="|window.location.href='/students'|"
+                                    style="background-color: #35969BFF; color: #ffffff">
+                                Go to Dashboard <i class="fa-solid fa-arrow-right-long"></i>
+                            </button>
+                            <button type="button" class="btn btn-light p-4 py-3" th:onclick="" style="background-color: #35969BFF; color: #ffffff">Download Invoice<i
+                                    class="fa-solid fa-arrow-right-long"></i></button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

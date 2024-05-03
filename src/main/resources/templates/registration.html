@@ -8,6 +8,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <style>
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-input {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #12a68d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .file-input-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+        .file-name-display {
+            margin-top: 5px;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{fragment/navbar}"></div>
@@ -78,10 +103,10 @@
                    </div>
 
                    <div class="mb-3 row">
-                       <label for="profileimage" class="col-sm-3 col-form-label">Profile Picture</label>
-                       <div class="col-sm-6">
-                           <input type="file" id="profileimage" autofocus="autofocus"
-                                  class="form-control-file" required name="profileimage" accept="image/*" th:field="*{profileimage}" >
+                       <div class="file-input-container">
+                           <label for="profileimage" class="custom-file-input">Choose Profile Image</label>
+                           <input type="file" id="profileimage" autofocus="autofocus" class="form-control-file" required name="profileimage" accept="image/*" th:field="*{profileimage}">
+                           <span class="file-name-display" id="file-name-display"></span>
                        </div>
                    </div>
 
@@ -96,6 +121,11 @@
        </div>
    </div>
 </div>
-
+<script>
+    document.getElementById("profileimage").addEventListener("change", function() {
+        var fileName = this.files[0].name;
+        document.getElementById("file-name-display").textContent = "Selected file: " + fileName;
+    });
+</script>
 </body>
 </html>

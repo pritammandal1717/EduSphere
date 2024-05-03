@@ -4,8 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.education.entity.Course;
 import org.education.entity.Student;
+import org.education.model.ChatMessage;
 import org.education.service.CourseService;
 import org.education.service.StudentService;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,9 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Struct;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -33,11 +36,36 @@ public class StudentController {
             studentOptional.ifPresent(student -> model.addAttribute("loggedInStudent", student));
         }
     }
-        @GetMapping()
-    public String openStudentProfile(Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
+    @GetMapping()
+    public String openStudentHome(Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
         model.addAttribute("student", loggedInStudent);
+            Set<Course> enrolledCourses = loggedInStudent.getCourses();
+            model.addAttribute("enrolledCourses", enrolledCourses);
         return "home-student";
     }
+    @GetMapping("/profile")
+    public String openStudentProfile(Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
+        model.addAttribute("student", loggedInStudent);
+        return "profile-student";
+    }
+
+    @GetMapping("/chat")
+    public String openChatPage(){
+        return "chat";
+    }
+    @MessageMapping("/chat.register")
+    @SendTo("/topic/public")
+    public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        return chatMessage;
+    }
+    @MessageMapping("/chat.send")
+    @SendTo("/topic/public")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage)
+    {
+        return chatMessage;
+    }
+
 
 //    @GetMapping("/getAllStudents")
 //    public String getStudents(Model model){
@@ -62,27 +90,30 @@ public class StudentController {
         return "redirect:/students?delete_success";
     }
 
-    @GetMapping("/courses/{courseName}/purchase")
-    public String showPurchaseCourseForm(@PathVariable("courseName") String courseName, Model model) {
-        Course course = courseService.findCourseByName(courseName);
+    @GetMapping("/courses")
+    public String findCourseByType(Model model,@ModelAttribute("loggedInStudent") Student loggedInStudent) {
+        List<Course> list_courses = courseService.getAllCoursesListService();
+        model.addAttribute("courses_list", list_courses);
+        model.addAttribute("student", loggedInStudent);
+        return "course-list";
+    }
+    @GetMapping("/courses/purchase/{id}")
+    public String showPurchaseCourseForm(@PathVariable("id") Integer id, Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent) {
+        model.addAttribute("student", loggedInStudent);
+        Course course = courseService.getCourseById(id);
         if (course != null) {
             model.addAttribute("course", course);
             return "purchase-course";
         } else {
-            return "redirect:/courses";
+            return "course-list";
         }
     }
-    @PostMapping("/courses/{courseName}/confirmPurchase")
-    public String confirmPurchase(@PathVariable("courseName")String courseName, Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
-        Course course = courseService.getCourseDetailsService(courseName);
-        Set<Course> courses = loggedInStudent.getCourses();
-        if (courses == null) {
-            courses = new HashSet<>();
-            courses.add(course);
-        }else {
-            courses.add(course);
-        }
+    @PostMapping("/courses/{courseid}/purchase")
+    public String confirmPurchase(@PathVariable("courseid")Integer id, Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
         model.addAttribute("student", loggedInStudent);
-        return "redirect:/students/home-student";
+        Course course = courseService.getCourseById(id);
+        loggedInStudent.getCourses().add(course);
+        studentService.saveStudent(loggedInStudent);
+        return "successful-purchase";
     }
 }

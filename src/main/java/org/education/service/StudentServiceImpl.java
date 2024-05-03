@@ -71,4 +71,9 @@ public class StudentServiceImpl implements StudentService{
         theUser.ifPresent(user -> verificationTokenService.deleteStudentToken(user.getId()));
         studentRepository.deleteById(id);
     }
+
+    @Override
+    public void saveStudent(Student student) {
+        studentRepository.save(student);
+    }
 }
