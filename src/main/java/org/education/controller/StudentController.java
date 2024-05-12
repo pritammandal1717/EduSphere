@@ -116,4 +116,15 @@ public class StudentController {
         studentService.saveStudent(loggedInStudent);
         return "successful-purchase";
     }
+    @GetMapping("/exams")
+    public String openExamPage(Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
+        model.addAttribute("student", loggedInStudent);
+        return "under-development";
+    }
+    @GetMapping("/quizes")
+    public String openQuizPage(Model model, @ModelAttribute("loggedInStudent") Student loggedInStudent){
+        model.addAttribute("student", loggedInStudent);
+        return "under-development";
+    }
+
 }
